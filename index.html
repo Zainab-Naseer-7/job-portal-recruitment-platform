@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerSphere | Elite Job Portal & Recruitment Platform</title>
+  <meta name="description" content="Discover exceptional career opportunities, connect with premier technology companies, and manage your end-to-end recruitment lifecycle on CareerSphere.">
+  <meta name="keywords" content="Job Portal, Recruitment, Tech Jobs, Remote Work, Software Engineer, Careers, Hiring Platform">
+
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Core Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-dark">
+
+  <!-- =========================================================================
+       1. STICKY GLASS NAVBAR
+       ========================================================================= -->
+  <header id="main-header" class="navbar-sticky">
+    <div style="max-width: 1380px; margin: 0 auto; padding: 0.9rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;">
+      
+      <!-- Brand Logo -->
+      <a href="#home" class="nav-brand" onclick="navigateTo('home'); return false;" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none;">
+        <div style="width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--gradient-blue-cyan); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(6, 182, 212, 0.45); color: #fff;">
+          <i data-lucide="compass" style="width: 24px; height: 24px;"></i>
+        </div>
+        <div>
+          <span style="font-family: var(--font-display); font-size: 1.45rem; font-weight: 800; letter-spacing: -0.5px; color: var(--text-primary);">Career<span class="gradient-text-brand">Sphere</span></span>
+          <span style="display: block; font-size: 0.68rem; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--accent-cyan); line-height: 1;">Recruitment Cloud</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav id="desktop-nav" style="display: flex; align-items: center; gap: 0.5rem;" class="hide-mobile">
+        <a href="#home" class="nav-link active" data-view="home" onclick="navigateTo('home'); return false;">Home</a>
+        <a href="#jobs" class="nav-link" data-view="jobs" onclick="navigateTo('jobs'); return false;">Find Jobs</a>
+        <a href="#companies" class="nav-link" data-view="companies" onclick="navigateTo('companies'); return false;">Companies</a>
+        <a href="#resources" class="nav-link" data-view="resources" onclick="navigateTo('resources'); return false;">Career Resources</a>
+        <a href="#candidate-dashboard" class="nav-link" data-view="candidate-dashboard" onclick="navigateTo('candidate-dashboard'); return false;">
+          <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+            <i data-lucide="user-check" style="width: 16px; height: 16px;"></i> Candidate Portal
+          </span>
+        </a>
+        <a href="#employer-dashboard" class="nav-link" data-view="employer-dashboard" onclick="navigateTo('employer-dashboard'); return false;">
+          <span style="display: inline-flex; align-items: center; gap: 0.35rem; color: var(--accent-cyan);">
+            <i data-lucide="briefcase" style="width: 16px; height: 16px;"></i> For Employers
+          </span>
+        </a>
+      </nav>
+
+      <!-- Right Action Bar -->
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        
+        <!-- Search Quick Modal Trigger -->
+        <button class="btn-ghost" onclick="focusMainSearch()" title="Quick Job Search" style="width: 38px; height: 38px; padding: 0; justify-content: center;">
+          <i data-lucide="search" style="width: 19px; height: 19px;"></i>
+        </button>
+
+        <!-- Theme Switcher -->
+        <button id="theme-toggle-btn" class="btn-ghost" onclick="toggleTheme()" title="Toggle Dark / Light Theme" style="width: 38px; height: 38px; padding: 0; justify-content: center;">
+          <i id="theme-icon" data-lucide="sun" style="width: 19px; height: 19px;"></i>
+        </button>
+
+        <!-- Notifications Dropdown Trigger -->
+        <div style="position: relative;">
+          <button id="notif-bell-btn" class="btn-ghost" onclick="toggleNotifDropdown(event)" title="Notifications" style="width: 38px; height: 38px; padding: 0; justify-content: center; position: relative;">
+            <i data-lucide="bell" style="width: 19px; height: 19px;"></i>
+            <span id="notif-badge" class="badge" style="position: absolute; top: 4px; right: 4px; padding: 2px 5px; font-size: 0.65rem; background: var(--accent-rose); color: #fff; min-width: 16px; height: 16px; border-radius: 99px;">2</span>
+          </button>
+
+          <!-- Notifications Flyout -->
+          <div id="notif-flyout" class="glass-panel" style="position: absolute; top: calc(100% + 12px); right: 0; width: 340px; display: none; z-index: 100; padding: 1rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem;">
+              <span style="font-weight: 700; font-size: 0.95rem;">Notifications</span>
+              <button onclick="markAllNotifsRead()" style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 600;">Mark all read</button>
+            </div>
+            <div id="notif-list-container" style="max-height: 290px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem;">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Role / User Profile Trigger -->
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <button onclick="openAuthModal()" class="btn-secondary hide-mobile" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+            <i data-lucide="user" style="width: 16px; height: 16px;"></i> Sign In
+          </button>
+          <button onclick="openPostJobModal()" class="btn-gradient" style="padding: 0.5rem 1.1rem; font-size: 0.85rem;">
+            <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
+            <span>Post a Job</span>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" class="btn-ghost show-mobile" onclick="toggleMobileMenu()" title="Open Navigation Menu" style="display: none;">
+          <i data-lucide="menu" style="width: 24px; height: 24px;"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="glass-panel" style="display: none; border-top: 1px solid var(--border-subtle); padding: 1.25rem 1.5rem; flex-direction: column; gap: 0.75rem;">
+      <a href="#home" class="nav-link active" onclick="navigateTo('home'); toggleMobileMenu(); return false;">Home</a>
+      <a href="#jobs" class="nav-link" onclick="navigateTo('jobs'); toggleMobileMenu(); return false;">Find Jobs</a>
+      <a href="#companies" class="nav-link" onclick="navigateTo('companies'); toggleMobileMenu(); return false;">Companies</a>
+      <a href="#resources" class="nav-link" onclick="navigateTo('resources'); toggleMobileMenu(); return false;">Career Resources</a>
+      <a href="#candidate-dashboard" class="nav-link" onclick="navigateTo('candidate-dashboard'); toggleMobileMenu(); return false;">Candidate Portal</a>
+      <a href="#employer-dashboard" class="nav-link" onclick="navigateTo('employer-dashboard'); toggleMobileMenu(); return false;">Employer Portal</a>
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 0.75rem; display: flex; gap: 0.75rem;">
+        <button onclick="openAuthModal(); toggleMobileMenu();" class="btn-secondary" style="flex: 1;">Sign In</button>
+        <button onclick="openPostJobModal(); toggleMobileMenu();" class="btn-gradient" style="flex: 1;">Post a Job</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       VIEW 1: HOME PAGE
+       ========================================================================= -->
+  <main id="view-home" class="page-view" style="position: relative;">
+    
+    <!-- Hero Background Glows -->
+    <div class="hero-glow-blob" style="top: 8%; left: 15%; width: 450px; height: 450px; background: rgba(37, 99, 235, 0.28);"></div>
+    <div class="hero-glow-blob" style="top: 14%; right: 10%; width: 420px; height: 420px; background: rgba(6, 182, 212, 0.2);"></div>
+    <div class="hero-glow-blob" style="top: 30%; left: 45%; width: 380px; height: 380px; background: rgba(124, 58, 237, 0.18);"></div>
+
+    <!-- Hero Section -->
+    <section style="position: relative; z-index: 1; padding: 4.5rem 1.5rem 3.5rem; max-width: 1320px; margin: 0 auto; text-align: center;">
+      
+      <!-- Top Pill Announcement -->
+      <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; border-radius: var(--radius-full); background: rgba(37, 99, 235, 0.12); border: 1px solid rgba(6, 182, 212, 0.3); margin-bottom: 1.75rem;">
+        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan);"></span>
+        <span style="font-size: 0.85rem; font-weight: 600; color: var(--accent-cyan);">1,480+ High-Growth Tech Roles Added Today</span>
+        <i data-lucide="arrow-right" style="width: 14px; height: 14px; color: var(--accent-cyan);"></i>
+      </div>
+
+      <!-- Hero Main Headline -->
+      <h1 style="font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 800; letter-spacing: -1.5px; max-width: 980px; margin: 0 auto 1.25rem; line-height: 1.15;">
+        Find Your Next Opportunity. <br>
+        <span class="gradient-text-brand">Build Your Future.</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p style="font-size: clamp(1.05rem, 1.8vw, 1.3rem); color: var(--text-secondary); max-width: 740px; margin: 0 auto 2.75rem; font-weight: 400;">
+        Discover exceptional career opportunities, connect with leading technology companies, and take the next step toward a career you truly love.
+      </p>
+
+      <!-- Advanced Hero Search Box -->
+      <div class="glass-panel" style="max-width: 960px; margin: 0 auto 2rem; padding: 0.9rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg), 0 0 35px rgba(37, 99, 235, 0.2);">
+        <div class="hero-search-box" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+          
+          <!-- Keyword Input -->
+          <div style="flex: 1.4; min-width: 220px; display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--bg-input); border: 1px solid var(--border-subtle);">
+            <i data-lucide="briefcase" style="width: 20px; height: 20px; color: var(--accent-cyan); flex-shrink: 0;"></i>
+            <div style="flex: 1; text-align: left;">
+              <label for="hero-search-keywords" style="display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">What job are you looking for?</label>
+              <input type="text" id="hero-search-keywords" placeholder="Job title, skill or keyword (e.g. React, ML)" style="width: 100%; border: none; background: transparent; padding: 0; font-size: 0.95rem; font-weight: 500;">
+            </div>
+          </div>
+
+          <!-- Location Input -->
+          <div style="flex: 1.1; min-width: 190px; display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--bg-input); border: 1px solid var(--border-subtle);">
+            <i data-lucide="map-pin" style="width: 20px; height: 20px; color: var(--accent-violet); flex-shrink: 0;"></i>
+            <div style="flex: 1; text-align: left;">
+              <label for="hero-search-location" style="display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Where?</label>
+              <input type="text" id="hero-search-location" placeholder="City, country or remote" style="width: 100%; border: none; background: transparent; padding: 0; font-size: 0.95rem; font-weight: 500;">
+            </div>
+          </div>
+
+          <!-- Work Mode Dropdown -->
+          <div style="flex: 0.9; min-width: 150px; display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: var(--radius-md); background: var(--bg-input); border: 1px solid var(--border-subtle);">
+            <i data-lucide="globe" style="width: 20px; height: 20px; color: var(--accent-emerald); flex-shrink: 0;"></i>
+            <div style="flex: 1; text-align: left;">
+              <label for="hero-search-mode" style="display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Work Mode</label>
+              <select id="hero-search-mode" style="width: 100%; border: none; background: transparent; padding: 0; font-size: 0.9rem; font-weight: 500;">
+                <option value="all">All Modes</option>
+                <option value="Remote">Remote</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="On-site">On-site</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Search CTA Button -->
+          <button onclick="executeHeroSearch()" class="btn-gradient" style="padding: 1.1rem 1.85rem; font-size: 1rem; border-radius: var(--radius-md); white-space: nowrap;">
+            <i data-lucide="search" style="width: 20px; height: 20px;"></i>
+            <span>Search Jobs</span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Popular Search Chips -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 3.5rem;">
+        <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Popular:</span>
+        <button onclick="quickFilterSearch('Software Engineer')" class="skill-pill" style="cursor: pointer;">Software Engineer</button>
+        <button onclick="quickFilterSearch('Frontend Developer')" class="skill-pill" style="cursor: pointer;">Frontend Developer</button>
+        <button onclick="quickFilterSearch('UI/UX Designer')" class="skill-pill" style="cursor: pointer;">UI/UX Designer</button>
+        <button onclick="quickFilterSearch('Machine Learning')" class="skill-pill" style="cursor: pointer;">Machine Learning</button>
+        <button onclick="quickFilterSearch('Product Manager')" class="skill-pill" style="cursor: pointer;">Product Manager</button>
+        <button onclick="quickFilterSearch('DevOps')" class="skill-pill" style="cursor: pointer;">DevOps & Cloud</button>
+      </div>
+
+      <!-- Floating Stats / Hero Highlights Cards -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto; text-align: left;">
+        
+        <div class="glass-panel animate-float-1" style="padding: 1.25rem; display: flex; align-items: center; gap: 1rem; border-radius: var(--radius-lg);">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: rgba(37, 99, 235, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); flex-shrink: 0;">
+            <i data-lucide="zap" style="width: 24px; height: 24px;"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span class="badge badge-cyan" style="font-size: 0.7rem;">98% Match</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Instant</span>
+            </div>
+            <h4 style="font-size: 0.95rem; margin-top: 0.2rem;">Senior Frontend Architect</h4>
+            <p style="font-size: 0.8rem; color: var(--text-secondary);">$140K – $185K · TechNova</p>
+          </div>
+        </div>
+
+        <div class="glass-panel animate-float-2" style="padding: 1.25rem; display: flex; align-items: center; gap: 1rem; border-radius: var(--radius-lg);">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent-emerald); flex-shrink: 0;">
+            <i data-lucide="check-circle-2" style="width: 24px; height: 24px;"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span class="badge badge-emerald" style="font-size: 0.7rem;">Offer Extended</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">2h ago</span>
+            </div>
+            <h4 style="font-size: 0.95rem; margin-top: 0.2rem;">Staff ML Scientist</h4>
+            <p style="font-size: 0.8rem; color: var(--text-secondary);">$245,000 / yr · QuantumAI</p>
+          </div>
+        </div>
+
+        <div class="glass-panel animate-float-1" style="padding: 1.25rem; display: flex; align-items: center; gap: 1rem; border-radius: var(--radius-lg);">
+          <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: rgba(124, 58, 237, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent-violet); flex-shrink: 0;">
+            <i data-lucide="trending-up" style="width: 24px; height: 24px;"></i>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+              <span class="badge badge-violet" style="font-size: 0.7rem;">+42% Surge</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">This Week</span>
+            </div>
+            <h4 style="font-size: 0.95rem; margin-top: 0.2rem;">Recruiter Inbound Views</h4>
+            <p style="font-size: 0.8rem; color: var(--text-secondary);">Direct interview requests</p>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         4. TRUST & STATISTICS SECTION
+         ========================================================================= -->
+    <section style="position: relative; z-index: 1; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); background: rgba(11, 31, 58, 0.45); backdrop-filter: blur(10px); padding: 3rem 1.5rem;">
+      <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; text-align: center;">
+        
+        <div>
+          <div class="stat-counter gradient-text-brand" style="font-family: var(--font-display); font-size: 3rem; font-weight: 800; line-height: 1;">25,000+</div>
+          <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-top: 0.5rem;">Active Jobs</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Verified tech & enterprise roles</div>
+        </div>
+
+        <div>
+          <div class="stat-counter gradient-text-brand" style="font-family: var(--font-display); font-size: 3rem; font-weight: 800; line-height: 1;">8,200+</div>
+          <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-top: 0.5rem;">Companies</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">From high-growth SaaS to Fortune 100</div>
+        </div>
+
+        <div>
+          <div class="stat-counter gradient-text-violet" style="font-family: var(--font-display); font-size: 3rem; font-weight: 800; line-height: 1;">120,000+</div>
+          <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-top: 0.5rem;">Professionals</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Top engineering & design talent</div>
+        </div>
+
+        <div>
+          <div class="stat-counter gradient-text-brand" style="font-family: var(--font-display); font-size: 3rem; font-weight: 800; line-height: 1;">95%</div>
+          <div style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin-top: 0.5rem;">Hiring Success</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">Average match satisfaction score</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         5. FEATURED JOBS SECTION
+         ========================================================================= -->
+    <section style="position: relative; z-index: 1; padding: 5rem 1.5rem; max-width: 1320px; margin: 0 auto;">
+      
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2.5rem;">
+        <div>
+          <div class="badge badge-blue" style="margin-bottom: 0.5rem;">Hand-Curated Opportunities</div>
+          <h2 style="font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 800; letter-spacing: -0.5px;">Featured Opportunities</h2>
+          <p style="color: var(--text-secondary); font-size: 1rem; margin-top: 0.35rem;">Leading technology companies actively hiring senior & staff talent right now.</p>
+        </div>
+
+        <!-- Featured Filter Chips -->
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button onclick="filterFeaturedJobs('all')" class="featured-tab btn-secondary active" data-cat="all" style="padding: 0.45rem 1rem; font-size: 0.85rem; border-radius: var(--radius-full);">All Roles</button>
+          <button onclick="filterFeaturedJobs('Remote')" class="featured-tab btn-secondary" data-cat="Remote" style="padding: 0.45rem 1rem; font-size: 0.85rem; border-radius: var(--radius-full);">Remote Only</button>
+          <button onclick="filterFeaturedJobs('Engineering')" class="featured-tab btn-secondary" data-cat="Engineering" style="padding: 0.45rem 1rem; font-size: 0.85rem; border-radius: var(--radius-full);">Engineering</button>
+          <button onclick="filterFeaturedJobs('AI & Data')" class="featured-tab btn-secondary" data-cat="AI & Data" style="padding: 0.45rem 1rem; font-size: 0.85rem; border-radius: var(--radius-full);">AI & Data</button>
+          <button onclick="filterFeaturedJobs('Design')" class="featured-tab btn-secondary" data-cat="Design" style="padding: 0.45rem 1rem; font-size: 0.85rem; border-radius: var(--radius-full);">Design</button>
+        </div>
+      </div>
+
+      <!-- Featured Job Cards Grid -->
+      <div id="featured-jobs-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+
+      <div style="text-align: center; margin-top: 3.5rem;">
+        <button onclick="navigateTo('jobs')" class="btn-gradient" style="padding: 0.9rem 2.25rem; font-size: 1rem;">
+          <span>Explore All 24+ Open Positions</span>
+          <i data-lucide="arrow-right" style="width: 18px; height: 18px;"></i>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         EXPLORE TOP CATEGORIES
+         ========================================================================= -->
+    <section style="position: relative; z-index: 1; padding: 4.5rem 1.5rem; background: rgba(11, 31, 58, 0.3); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div style="max-width: 1320px; margin: 0 auto;">
+        
+        <div style="text-align: center; max-width: 650px; margin: 0 auto 3rem;">
+          <div class="badge badge-cyan" style="margin-bottom: 0.5rem;">High Demand Sectors</div>
+          <h2 style="font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800;">Browse by Career Category</h2>
+          <p style="color: var(--text-secondary); margin-top: 0.35rem;">Explore specialized career tracks with verified compensation ranges and hiring benchmarks.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem;">
+          
+          <div class="glass-panel glass-panel-interactive" onclick="quickFilterCategory('Engineering')" style="padding: 1.5rem; cursor: pointer;">
+            <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: rgba(37, 99, 235, 0.18); display: flex; align-items: center; justify-content: center; color: var(--primary-blue); margin-bottom: 1rem;">
+              <i data-lucide="code-2" style="width: 24px; height: 24px;"></i>
+            </div>
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.3rem;">Software & Cloud</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">12,400+ Open Positions</p>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.3rem;">
+              Browse Roles <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+
+          <div class="glass-panel glass-panel-interactive" onclick="quickFilterCategory('AI & Data')" style="padding: 1.5rem; cursor: pointer;">
+            <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: rgba(124, 58, 237, 0.18); display: flex; align-items: center; justify-content: center; color: var(--accent-violet); margin-bottom: 1rem;">
+              <i data-lucide="cpu" style="width: 24px; height: 24px;"></i>
+            </div>
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.3rem;">AI & Machine Learning</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">4,800+ Open Positions</p>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.3rem;">
+              Browse Roles <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+
+          <div class="glass-panel glass-panel-interactive" onclick="quickFilterCategory('Design')" style="padding: 1.5rem; cursor: pointer;">
+            <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: rgba(236, 72, 153, 0.18); display: flex; align-items: center; justify-content: center; color: #EC4899; margin-bottom: 1rem;">
+              <i data-lucide="palette" style="width: 24px; height: 24px;"></i>
+            </div>
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.3rem;">UI/UX & Product Design</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">2,900+ Open Positions</p>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.3rem;">
+              Browse Roles <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+
+          <div class="glass-panel glass-panel-interactive" onclick="quickFilterCategory('Finance')" style="padding: 1.5rem; cursor: pointer;">
+            <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: rgba(245, 158, 11, 0.18); display: flex; align-items: center; justify-content: center; color: var(--accent-amber); margin-bottom: 1rem;">
+              <i data-lucide="circle-dollar-sign" style="width: 24px; height: 24px;"></i>
+            </div>
+            <h4 style="font-size: 1.1rem; margin-bottom: 0.3rem;">FinTech & Quantitative</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">3,200+ Open Positions</p>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.3rem;">
+              Browse Roles <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         TOP COMPANIES PREVIEW
+         ========================================================================= -->
+    <section style="position: relative; z-index: 1; padding: 5rem 1.5rem; max-width: 1320px; margin: 0 auto;">
+      
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;">
+        <div>
+          <div class="badge badge-emerald" style="margin-bottom: 0.5rem;">Verified Workplaces</div>
+          <h2 style="font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800;">Featured Top Companies</h2>
+          <p style="color: var(--text-secondary); margin-top: 0.35rem;">Discover companies known for engineering innovation, transparent culture, and top compensation.</p>
+        </div>
+        <button onclick="navigateTo('companies')" class="btn-outline-blue">
+          <span>View All 16+ Companies</span>
+          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+
+      <div id="home-companies-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+        <!-- Rendered via JS -->
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         HOW CAREERSPHERE WORKS
+         ========================================================================= -->
+    <section style="position: relative; z-index: 1; padding: 5rem 1.5rem; background: rgba(11, 31, 58, 0.4); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+      <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+        
+        <div class="badge badge-violet" style="margin-bottom: 0.5rem;">Streamlined Workflow</div>
+        <h2 style="font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 0.75rem;">How CareerSphere Works</h2>
+        <p style="color: var(--text-secondary); max-width: 620px; margin: 0 auto 3.5rem;">A modern, transparent recruitment engine designed to empower both candidates and engineering recruiters.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; text-align: left;">
+          
+          <div class="glass-panel" style="padding: 2rem; position: relative;">
+            <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; color: rgba(37, 99, 235, 0.4); line-height: 1; margin-bottom: 1rem;">01</div>
+            <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Build Your Smart Profile</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Upload your resume, showcase projects, and define your salary expectations and preferred work modes.</p>
+          </div>
+
+          <div class="glass-panel" style="padding: 2rem; position: relative;">
+            <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; color: rgba(6, 182, 212, 0.4); line-height: 1; margin-bottom: 1rem;">02</div>
+            <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">AI-Driven Match Scoring</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Our matching algorithms evaluate your technical stack to present high-probability career opportunities.</p>
+          </div>
+
+          <div class="glass-panel" style="padding: 2rem; position: relative;">
+            <div style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; color: rgba(124, 58, 237, 0.4); line-height: 1; margin-bottom: 1rem;">03</div>
+            <h4 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Track End-to-End Progress</h4>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Receive real-time application updates, schedule interviews directly, and communicate with hiring teams.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         CAREER RESOURCES PREVIEW
+         ========================================================================= -->
+    <section style="position: relative; z-index: 1; padding: 5rem 1.5rem; max-width: 1320px; margin: 0 auto;">
+      
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;">
+        <div>
+          <div class="badge badge-cyan" style="margin-bottom: 0.5rem;">Actionable Advice</div>
+          <h2 style="font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800;">Career Insights & Resources</h2>
+          <p style="color: var(--text-secondary); margin-top: 0.35rem;">In-depth guides on technical interviews, compensation negotiation, and resume optimization.</p>
+        </div>
+        <button onclick="navigateTo('resources')" class="btn-outline-blue">
+          <span>Explore All Resources</span>
+          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+
+      <div id="home-resources-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+        <!-- Rendered via JS -->
+      </div>
+
+    </section>
+
+    <!-- =========================================================================
+         EMPLOYER BANNER CTA
+         ========================================================================= -->
+    <section style="position: relative; z-index: 1; padding: 2rem 1.5rem 5rem; max-width: 1320px; margin: 0 auto;">
+      <div class="glass-panel" style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(124, 58, 237, 0.2) 100%), var(--bg-surface); border: 1px solid var(--border-medium); border-radius: var(--radius-xl); padding: 3.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem;">
+        <div style="max-width: 680px;">
+          <div class="badge badge-cyan" style="margin-bottom: 0.75rem;">For Hiring Teams</div>
+          <h2 style="font-size: clamp(2rem, 3.5vw, 2.7rem); font-weight: 800; line-height: 1.2;">Looking to Hire Exceptional Engineering Talent?</h2>
+          <p style="color: var(--text-secondary); font-size: 1.1rem; margin-top: 0.75rem;">Connect with over 120,000 verified developers, designers, and tech leaders. Post your job in under 2 minutes.</p>
+        </div>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button onclick="openPostJobModal()" class="btn-gradient" style="padding: 1rem 2rem; font-size: 1.05rem;">
+            <i data-lucide="plus-circle" style="width: 20px; height: 20px;"></i>
+            <span>Post a Job Now</span>
+          </button>
+          <button onclick="navigateTo('employer-dashboard')" class="btn-secondary" style="padding: 1rem 1.75rem; font-size: 1.05rem;">
+            <span>Open Recruiter Portal</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       VIEW 2: ADVANCED JOB SEARCH PAGE (FIND JOBS)
+       ========================================================================= -->
+  <section id="view-jobs" class="page-view" style="display: none; padding: 2.5rem 1.5rem 5rem; max-width: 1380px; margin: 0 auto;">
+    
+    <!-- Top Search Bar & Summary -->
+    <div class="glass-panel" style="padding: 1.25rem 1.5rem; margin-bottom: 2rem; border-radius: var(--radius-lg);">
+      <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+        <div style="flex: 1.5; min-width: 240px; position: relative;">
+          <i data-lucide="search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-muted);"></i>
+          <input type="text" id="jobs-search-input" oninput="applyJobFilters()" placeholder="Search title, tech stack (e.g. React, Python), keyword..." style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.8rem; border-radius: var(--radius-md);">
+        </div>
+        <div style="flex: 1.2; min-width: 200px; position: relative;">
+          <i data-lucide="map-pin" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-muted);"></i>
+          <input type="text" id="jobs-location-input" oninput="applyJobFilters()" placeholder="City, country or 'Remote'" style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.8rem; border-radius: var(--radius-md);">
+        </div>
+        <button onclick="applyJobFilters()" class="btn-gradient" style="padding: 0.75rem 1.5rem;">
+          <i data-lucide="filter" style="width: 18px; height: 18px;"></i>
+          <span>Apply</span>
+        </button>
+        <button onclick="resetJobFilters()" class="btn-secondary" style="padding: 0.75rem 1.25rem;">
+          <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i>
+          <span>Reset</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Discovery Grid Layout -->
+    <div style="display: grid; grid-template-columns: 290px 1fr; gap: 2rem; align-items: start;" class="dashboard-grid">
+      
+      <!-- Left Filter Panel -->
+      <aside class="glass-panel" style="padding: 1.5rem; border-radius: var(--radius-lg); position: sticky; top: 85px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem;">
+          <h3 style="font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem;">
+            <i data-lucide="sliders-horizontal" style="width: 18px; height: 18px; color: var(--accent-cyan);"></i> Filter Jobs
+          </h3>
+          <button onclick="resetJobFilters()" style="font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600;">Clear All</button>
+        </div>
+
+        <form id="jobs-filter-form" onsubmit="return false;">
+          
+          <!-- Salary Range Slider -->
+          <div style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem;">
+              <span>Min Salary</span>
+              <span id="salary-range-label" style="color: var(--accent-cyan); font-weight: 700;">$50,000 / yr</span>
+            </div>
+            <input type="range" id="filter-salary" min="50000" max="250000" step="10000" value="50000" oninput="updateSalaryLabel(this.value); applyJobFilters();" style="width: 100%; accent-color: var(--primary-blue);">
+            <div style="display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">
+              <span>$50K</span>
+              <span>$150K</span>
+              <span>$250K+</span>
+            </div>
+          </div>
+
+          <!-- Work Mode -->
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.6rem;">Work Mode</label>
+            <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="workMode" value="Remote" onchange="applyJobFilters()"> Remote
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="workMode" value="Hybrid" onchange="applyJobFilters()"> Hybrid
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="workMode" value="On-site" onchange="applyJobFilters()"> On-site
+              </label>
+            </div>
+          </div>
+
+          <!-- Job Type -->
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.6rem;">Job Type</label>
+            <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="jobType" value="Full-time" onchange="applyJobFilters()"> Full-time
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="jobType" value="Contract" onchange="applyJobFilters()"> Contract
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="jobType" value="Internship" onchange="applyJobFilters()"> Internship
+              </label>
+            </div>
+          </div>
+
+          <!-- Experience Level -->
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.6rem;">Experience Level</label>
+            <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="experience" value="Entry" onchange="applyJobFilters()"> Entry Level
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="experience" value="Mid" onchange="applyJobFilters()"> Mid-Level
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="experience" value="Senior" onchange="applyJobFilters()"> Senior
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="experience" value="Lead" onchange="applyJobFilters()"> Lead / Staff
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+                <input type="checkbox" name="experience" value="Executive" onchange="applyJobFilters()"> Executive
+              </label>
+            </div>
+          </div>
+
+          <!-- Industry / Category -->
+          <div style="margin-bottom: 1.5rem;">
+            <label for="filter-industry" style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem;">Industry</label>
+            <select id="filter-industry" onchange="applyJobFilters()" style="width: 100%; padding: 0.6rem 0.8rem; border-radius: var(--radius-md);">
+              <option value="all">All Industries</option>
+              <option value="Technology">Technology & Cloud</option>
+              <option value="Finance">Finance & FinTech</option>
+              <option value="Healthcare">Healthcare & Bio</option>
+              <option value="Engineering">Engineering & Mobility</option>
+              <option value="Marketing">Marketing & Design</option>
+              <option value="E-commerce">E-commerce</option>
+              <option value="Education">Education</option>
+            </select>
+          </div>
+
+          <!-- Skills Selector Cloud -->
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem;">Skills</label>
+            <div id="skills-filter-cloud" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+              <!-- Generated in JS -->
+            </div>
+          </div>
+
+        </form>
+      </aside>
+
+      <!-- Results Area -->
+      <section>
+        
+        <!-- Results Bar -->
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h2 id="jobs-count-heading" style="font-size: 1.4rem; font-weight: 800;">24 Opportunities Found</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Real-time client-side filtered results</p>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            
+            <!-- Sorting -->
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 0.85rem; color: var(--text-muted); white-space: nowrap;">Sort by:</span>
+              <select id="jobs-sort-select" onchange="applyJobFilters()" style="padding: 0.45rem 0.75rem; border-radius: var(--radius-md); font-size: 0.85rem;">
+                <option value="relevant">Most Relevant</option>
+                <option value="newest">Newest First</option>
+                <option value="salary-high">Highest Salary</option>
+                <option value="salary-low">Lowest Salary</option>
+              </select>
+            </div>
+
+            <!-- View Switcher (Grid / List) -->
+            <div style="display: flex; border: 1px solid var(--border-subtle); border-radius: var(--radius-md); overflow: hidden;">
+              <button id="view-mode-grid" onclick="setViewMode('grid')" class="btn-ghost" title="Grid View" style="padding: 0.45rem 0.65rem; border-radius: 0; background: rgba(255, 255, 255, 0.1);">
+                <i data-lucide="layout-grid" style="width: 17px; height: 17px;"></i>
+              </button>
+              <button id="view-mode-list" onclick="setViewMode('list')" class="btn-ghost" title="List View" style="padding: 0.45rem 0.65rem; border-radius: 0;">
+                <i data-lucide="list" style="width: 17px; height: 17px;"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Active Filter Pills Bar -->
+        <div id="active-filter-pills" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem;">
+          <!-- Rendered in JS -->
+        </div>
+
+        <!-- Jobs List / Grid Container -->
+        <div id="jobs-results-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="jobs-empty-state" class="glass-panel" style="display: none; padding: 4rem 2rem; text-align: center; border-radius: var(--radius-xl);">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: rgba(37, 99, 235, 0.15); display: flex; align-items: center; justify-content: center; color: var(--accent-cyan); margin: 0 auto 1.25rem;">
+            <i data-lucide="search-x" style="width: 32px; height: 32px;"></i>
+          </div>
+          <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem;">No Opportunities Match Your Criteria</h3>
+          <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.5rem;">Try relaxing your salary requirements, unchecking specific work modes, or clearing active search keywords.</p>
+          <button onclick="resetJobFilters()" class="btn-gradient">
+            <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i>
+            <span>Reset All Filters</span>
+          </button>
+        </div>
+
+      </section>
+
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       VIEW 3: COMPANY DIRECTORY
+       ========================================================================= -->
+  <section id="view-companies" class="page-view" style="display: none; padding: 3rem 1.5rem 5rem; max-width: 1320px; margin: 0 auto;">
+    
+    <div style="text-align: center; max-width: 700px; margin: 0 auto 2.5rem;">
+      <div class="badge badge-cyan" style="margin-bottom: 0.5rem;">Enterprise Directory</div>
+      <h1 style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800;">Explore Top Companies</h1>
+      <p style="color: var(--text-secondary); margin-top: 0.5rem;">Discover company cultures, transparent employee reviews, executive benefits, and active opportunities.</p>
+    </div>
+
+    <!-- Company Search and Filter Tabs -->
+    <div class="glass-panel" style="padding: 1.25rem; margin-bottom: 2.5rem; border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 1rem;">
+      <div style="position: relative;">
+        <i data-lucide="search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--text-muted);"></i>
+        <input type="text" id="company-search-input" oninput="filterCompanies()" placeholder="Search company by name, mission, or industry..." style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.8rem; border-radius: var(--radius-md);">
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button onclick="filterCompanySector('all')" class="company-tab btn-secondary active" data-sector="all" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">All Sectors</button>
+        <button onclick="filterCompanySector('technology')" class="company-tab btn-secondary" data-sector="technology" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Technology</button>
+        <button onclick="filterCompanySector('finance')" class="company-tab btn-secondary" data-sector="finance" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Finance</button>
+        <button onclick="filterCompanySector('healthcare')" class="company-tab btn-secondary" data-sector="healthcare" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Healthcare</button>
+        <button onclick="filterCompanySector('engineering')" class="company-tab btn-secondary" data-sector="engineering" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Engineering</button>
+        <button onclick="filterCompanySector('marketing')" class="company-tab btn-secondary" data-sector="marketing" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Marketing</button>
+        <button onclick="filterCompanySector('ecommerce')" class="company-tab btn-secondary" data-sector="ecommerce" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">E-commerce</button>
+        <button onclick="filterCompanySector('education')" class="company-tab btn-secondary" data-sector="education" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Education</button>
+      </div>
+    </div>
+
+    <!-- Company Cards Grid -->
+    <div id="companies-directory-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem;">
+      <!-- Rendered via JS -->
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       VIEW 4: CAREER RESOURCES
+       ========================================================================= -->
+  <section id="view-resources" class="page-view" style="display: none; padding: 3rem 1.5rem 5rem; max-width: 1320px; margin: 0 auto;">
+    
+    <div style="text-align: center; max-width: 700px; margin: 0 auto 2.5rem;">
+      <div class="badge badge-violet" style="margin-bottom: 0.5rem;">Knowledge Hub</div>
+      <h1 style="font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800;">Career Learning & Strategy</h1>
+      <p style="color: var(--text-secondary); margin-top: 0.5rem;">Actionable guides on crafting world-class resumes, mastering technical system design interviews, and negotiating compensation.</p>
+    </div>
+
+    <!-- Resource Filter Chips -->
+    <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem;">
+      <button onclick="filterResourceCategory('all')" class="resource-tab btn-secondary active" data-cat="all" style="padding: 0.45rem 1.1rem; border-radius: var(--radius-full); font-size: 0.85rem;">All Topics</button>
+      <button onclick="filterResourceCategory('Resume Tips')" class="resource-tab btn-secondary" data-cat="Resume Tips" style="padding: 0.45rem 1.1rem; border-radius: var(--radius-full); font-size: 0.85rem;">Resume Tips</button>
+      <button onclick="filterResourceCategory('Interview Preparation')" class="resource-tab btn-secondary" data-cat="Interview Preparation" style="padding: 0.45rem 1.1rem; border-radius: var(--radius-full); font-size: 0.85rem;">Interview Prep</button>
+      <button onclick="filterResourceCategory('Salary Guide')" class="resource-tab btn-secondary" data-cat="Salary Guide" style="padding: 0.45rem 1.1rem; border-radius: var(--radius-full); font-size: 0.85rem;">Salary Guide</button>
+      <button onclick="filterResourceCategory('Remote Work')" class="resource-tab btn-secondary" data-cat="Remote Work" style="padding: 0.45rem 1.1rem; border-radius: var(--radius-full); font-size: 0.85rem;">Remote Work</button>
+    </div>
+
+    <!-- Resources Grid -->
+    <div id="resources-cards-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 2rem;">
+      <!-- Rendered in JS -->
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       VIEW 5: CANDIDATE DASHBOARD
+       ========================================================================= -->
+  <section id="view-candidate-dashboard" class="page-view" style="display: none; padding: 2.5rem 1.5rem 5rem; max-width: 1380px; margin: 0 auto;">
+    
+    <!-- Candidate Header Banner -->
+    <div class="glass-panel" style="padding: 2rem; border-radius: var(--radius-xl); margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+      
+      <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+        <img id="cand-header-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Candidate" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-blue); box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <h1 id="cand-header-name" style="font-size: 1.8rem; font-weight: 800;">Alex Morgan</h1>
+            <span class="badge badge-emerald"><i data-lucide="shield-check" style="width: 13px; height: 13px;"></i> Verified Candidate</span>
+          </div>
+          <p id="cand-header-headline" style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.2rem;">Senior Full Stack & Frontend Engineer | React, TypeScript, Next.js, Node.js</p>
+          <div style="display: flex; align-items: center; gap: 1.25rem; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem; flex-wrap: wrap;">
+            <span style="display: flex; align-items: center; gap: 0.3rem;"><i data-lucide="map-pin" style="width: 14px; height: 14px;"></i> San Francisco, CA (Open to Remote)</span>
+            <span style="display: flex; align-items: center; gap: 0.3rem;"><i data-lucide="mail" style="width: 14px; height: 14px;"></i> alex.morgan@careersphere.io</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Completion Mini Card -->
+      <div class="glass-panel" style="padding: 1rem 1.25rem; border-radius: var(--radius-lg); display: flex; align-items: center; gap: 1rem; background: rgba(7, 17, 31, 0.6);">
+        <div class="meter-circle-container" style="width: 60px; height: 60px;">
+          <svg width="60" height="60" viewBox="0 0 60 60">
+            <circle class="meter-circle-bg" cx="30" cy="30" r="24"></circle>
+            <circle class="meter-circle-bar" cx="30" cy="30" r="24" stroke-dasharray="150.8" stroke-dashoffset="12.06"></circle>
+          </svg>
+          <span style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 800; font-family: var(--font-display);">92%</span>
+        </div>
+        <div>
+          <div style="font-size: 0.85rem; font-weight: 700;">Profile Strength</div>
+          <p style="font-size: 0.75rem; color: var(--text-muted);">Excellent · 2 tips to reach 100%</p>
+          <button onclick="switchCandidateTab('profile')" style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 600; margin-top: 0.2rem;">Complete Profile</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Candidate Navigation Tabs -->
+    <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; margin-bottom: 2rem; overflow-x: auto;">
+      <button onclick="switchCandidateTab('overview')" class="cand-nav-btn nav-link active" data-tab="overview">Overview</button>
+      <button onclick="switchCandidateTab('applications')" class="cand-nav-btn nav-link" data-tab="applications">
+        Applications Tracker <span id="cand-apps-count-badge" class="badge badge-blue" style="font-size: 0.65rem; padding: 1px 6px;">4</span>
+      </button>
+      <button onclick="switchCandidateTab('saved')" class="cand-nav-btn nav-link" data-tab="saved">
+        Saved Jobs <span id="cand-saved-count-badge" class="badge badge-cyan" style="font-size: 0.65rem; padding: 1px 6px;">5</span>
+      </button>
+      <button onclick="switchCandidateTab('recommended')" class="cand-nav-btn nav-link" data-tab="recommended">Recommended Jobs</button>
+      <button onclick="switchCandidateTab('profile')" class="cand-nav-btn nav-link" data-tab="profile">My Profile</button>
+      <button onclick="switchCandidateTab('resumes')" class="cand-nav-btn nav-link" data-tab="resumes">Resumes</button>
+      <button onclick="switchCandidateTab('messages')" class="cand-nav-btn nav-link" data-tab="messages">Messages</button>
+    </div>
+
+    <!-- TAB 1: OVERVIEW -->
+    <div id="cand-tab-overview" class="cand-tab-content">
+      
+      <!-- Metrics Row -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+        
+        <div class="glass-panel" style="padding: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Active Applications</span>
+            <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: rgba(37, 99, 235, 0.15); display: flex; align-items: center; justify-content: center; color: var(--primary-blue);">
+              <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+            </div>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; font-family: var(--font-display);">24</div>
+          <div style="font-size: 0.78rem; color: var(--accent-emerald); display: flex; align-items: center; gap: 0.3rem; margin-top: 0.25rem;">
+            <i data-lucide="trending-up" style="width: 14px; height: 14px;"></i> +3 submitted this week
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Interviews Scheduled</span>
+            <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: rgba(124, 58, 237, 0.15); display: flex; align-items: center; justify-content: center; color: var(--accent-violet);">
+              <i data-lucide="video" style="width: 18px; height: 18px;"></i>
+            </div>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; font-family: var(--font-display);">5</div>
+          <div style="font-size: 0.78rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 0.3rem; margin-top: 0.25rem;">
+            <i data-lucide="calendar" style="width: 14px; height: 14px;"></i> Next: TechNova (Sep 08)
+          </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Saved Bookmarks</span>
+            <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: rgba(6, 182, 212, 0.15); display: flex; align-items: center; justify-content: center; color: var(--accent-cyan);">
+              <i data-lucide="bookmark" style="width: 18px; height: 18px;"></i>
+            </div>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; font-family: var(--font-display);">18</div>
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.25rem;">Ready for 1-click apply</div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+            <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Profile Completion</span>
+            <div style="width: 38px; height: 38px; border-radius: var(--radius-sm); background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; color: var(--accent-emerald);">
+              <i data-lucide="award" style="width: 18px; height: 18px;"></i>
+            </div>
+          </div>
+          <div style="font-size: 2.2rem; font-weight: 800; font-family: var(--font-display);">92%</div>
+          <div style="font-size: 0.78rem; color: var(--accent-emerald); margin-top: 0.25rem;">Top 5% Candidate Rank</div>
+        </div>
+
+      </div>
+
+      <!-- Quick Section: Recent Applications & Interview Reminders -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;" class="dashboard-grid">
+        
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 700;">Recent Applications Timeline</h3>
+            <button onclick="switchCandidateTab('applications')" style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600;">View All Details</button>
+          </div>
+
+          <div id="cand-overview-apps" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <!-- Rendered in JS -->
+          </div>
+        </div>
+
+        <!-- Upcoming Interview Card & Suggestions -->
+        <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <div class="glass-panel" style="padding: 1.5rem; border-left: 4px solid var(--accent-violet);">
+            <div class="badge badge-violet" style="margin-bottom: 0.5rem;">Upcoming Interview</div>
+            <h4 style="font-size: 1.1rem; font-weight: 700;">Technical Architecture Deep Dive</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">TechNova Systems · Senior Frontend Engineer</p>
+            
+            <div style="margin: 1rem 0; padding: 0.75rem; background: rgba(7, 17, 31, 0.6); border-radius: var(--radius-md); font-size: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.4rem; color: var(--text-primary); font-weight: 600;">
+                <i data-lucide="clock" style="width: 15px; height: 15px; color: var(--accent-cyan);"></i> Sep 08, 2026 · 2:00 PM PST
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.4rem; color: var(--text-muted); margin-top: 0.25rem;">
+                <i data-lucide="user" style="width: 15px; height: 15px;"></i> Sarah Lin (VP Engineering)
+              </div>
+            </div>
+
+            <a href="https://meet.careersphere.io/technova-tech-interview" target="_blank" class="btn-gradient" style="width: 100%; text-align: center; justify-content: center; font-size: 0.9rem;">
+              <i data-lucide="video" style="width: 16px; height: 16px;"></i> Join Meeting Link
+            </a>
+          </div>
+
+          <!-- Suggestions Card -->
+          <div class="glass-panel" style="padding: 1.5rem;">
+            <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+              <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--accent-amber);"></i> Profile Suggestions
+            </h4>
+            <div id="cand-suggestions-list" style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.85rem; color: var(--text-secondary);">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TAB 2: APPLICATIONS TRACKER -->
+    <div id="cand-tab-applications" class="cand-tab-content" style="display: none;">
+      
+      <!-- Filter status buttons -->
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button onclick="filterCandidateApps('all')" class="cand-app-filter-btn btn-secondary active" data-status="all" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">All (4)</button>
+          <button onclick="filterCandidateApps('Interview')" class="cand-app-filter-btn btn-secondary" data-status="Interview" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Interview (1)</button>
+          <button onclick="filterCandidateApps('Shortlisted')" class="cand-app-filter-btn btn-secondary" data-status="Shortlisted" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Shortlisted (1)</button>
+          <button onclick="filterCandidateApps('Under Review')" class="cand-app-filter-btn btn-secondary" data-status="Under Review" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Under Review (1)</button>
+          <button onclick="filterCandidateApps('Applied')" class="cand-app-filter-btn btn-secondary" data-status="Applied" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Applied (1)</button>
+        </div>
+      </div>
+
+      <div id="cand-full-applications-list" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <!-- Rendered in JS with full interactive timeline -->
+      </div>
+
+    </div>
+
+    <!-- TAB 3: SAVED JOBS -->
+    <div id="cand-tab-saved" class="cand-tab-content" style="display: none;">
+      <div id="cand-saved-jobs-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+        <!-- Rendered in JS -->
+      </div>
+    </div>
+
+    <!-- TAB 4: RECOMMENDED JOBS -->
+    <div id="cand-tab-recommended" class="cand-tab-content" style="display: none;">
+      <div id="cand-recommended-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem;">
+        <!-- Rendered in JS -->
+      </div>
+    </div>
+
+    <!-- TAB 5: MY PROFILE BUILDER -->
+    <div id="cand-tab-profile" class="cand-tab-content" style="display: none;">
+      <div class="glass-panel" style="padding: 2rem; border-radius: var(--radius-xl); max-width: 860px;">
+        <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 1.5rem;">Edit Professional Profile</h3>
+        
+        <form id="cand-profile-form" onsubmit="saveCandidateProfile(event)">
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Full Name</label>
+              <input type="text" id="prof-name" value="Alex Morgan" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Professional Headline</label>
+              <input type="text" id="prof-headline" value="Senior Full Stack & Frontend Engineer | React, TypeScript, Next.js" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Email</label>
+              <input type="email" id="prof-email" value="alex.morgan@careersphere.io" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Phone</label>
+              <input type="text" id="prof-phone" value="+1 (555) 382-9104" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Location</label>
+            <input type="text" id="prof-location" value="San Francisco, CA (Open to Remote)" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">About / Executive Bio</label>
+            <textarea id="prof-about" rows="4" style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md);">Full Stack Engineer with 6+ years of experience specializing in building production-grade web applications with React, TypeScript, and modern distributed backends. Passionate about design systems, web performance, and developer experience.</textarea>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Skills (Comma separated)</label>
+            <input type="text" id="prof-skills" value="React, TypeScript, Next.js, Node.js, Tailwind CSS, GraphQL, Docker, AWS, PostgreSQL" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+          </div>
+
+          <button type="submit" class="btn-gradient" style="padding: 0.8rem 1.8rem;">
+            <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+            <span>Save Profile Updates</span>
+          </button>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 6: RESUMES -->
+    <div id="cand-tab-resumes" class="cand-tab-content" style="display: none;">
+      <div class="glass-panel" style="padding: 2rem; border-radius: var(--radius-xl); max-width: 860px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <div>
+            <h3 style="font-size: 1.25rem; font-weight: 700;">Uploaded Resumes</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Manage your curriculum vitae versions for 1-click job submissions.</p>
+          </div>
+          <button onclick="triggerResumeUpload()" class="btn-gradient" style="font-size: 0.85rem; padding: 0.55rem 1.15rem;">
+            <i data-lucide="upload" style="width: 16px; height: 16px;"></i> Upload Resume
+          </button>
+        </div>
+
+        <div id="cand-resumes-list" style="display: flex; flex-direction: column; gap: 1rem;">
+          <!-- Rendered in JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 7: MESSAGES -->
+    <div id="cand-tab-messages" class="cand-tab-content" style="display: none;">
+      <div class="chat-container">
+        
+        <!-- Sidebar Contacts -->
+        <div class="chat-sidebar" style="width: 320px; border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; background: rgba(7, 17, 31, 0.4);">
+          <div style="padding: 1rem; border-bottom: 1px solid var(--border-subtle);">
+            <div style="font-weight: 700; font-size: 1rem; margin-bottom: 0.5rem;">Recruiter Conversations</div>
+            <input type="text" placeholder="Search recruiters..." style="width: 100%; padding: 0.45rem 0.75rem; border-radius: var(--radius-sm); font-size: 0.85rem;">
+          </div>
+          <div id="chat-thread-list" style="overflow-y: auto; flex: 1;">
+            <!-- Rendered in JS -->
+          </div>
+        </div>
+
+        <!-- Active Chat Window -->
+        <div style="flex: 1; display: flex; flex-direction: column; background: var(--bg-surface);">
+          
+          <!-- Chat Header -->
+          <div id="chat-header" style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <img id="chat-active-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" alt="Recruiter" style="width: 42px; height: 42px; border-radius: 50%; object-fit: cover;">
+              <div>
+                <div id="chat-active-name" style="font-weight: 700; font-size: 1rem;">Sarah Lin</div>
+                <div id="chat-active-title" style="font-size: 0.75rem; color: var(--accent-cyan);">Engineering VP at TechNova Systems</div>
+              </div>
+            </div>
+            <div class="badge badge-emerald"><span style="width: 6px; height: 6px; border-radius: 50%; background: var(--accent-emerald);"></span> Online</div>
+          </div>
+
+          <!-- Messages Body -->
+          <div id="chat-messages-body" style="flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Rendered in JS -->
+          </div>
+
+          <!-- Chat Input -->
+          <form id="chat-send-form" onsubmit="sendChatMessage(event)" style="padding: 1rem 1.5rem; border-top: 1px solid var(--border-subtle); display: flex; gap: 0.75rem; align-items: center;">
+            <input type="text" id="chat-input-text" placeholder="Type your response to the recruiter..." style="flex: 1; padding: 0.75rem 1rem; border-radius: var(--radius-md);">
+            <button type="submit" class="btn-gradient" style="padding: 0.75rem 1.25rem;">
+              <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+            </button>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       VIEW 6: EMPLOYER DASHBOARD & RECRUITMENT PORTAL
+       ========================================================================= -->
+  <section id="view-employer-dashboard" class="page-view" style="display: none; padding: 2.5rem 1.5rem 5rem; max-width: 1380px; margin: 0 auto;">
+    
+    <!-- Employer Header -->
+    <div class="glass-panel" style="padding: 2rem; border-radius: var(--radius-xl); margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+      <div style="display: flex; align-items: center; gap: 1.25rem;">
+        <div style="width: 58px; height: 58px; border-radius: var(--radius-md); background: var(--gradient-blue-violet); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; color: #fff;">
+          TN
+        </div>
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <h1 style="font-size: 1.8rem; font-weight: 800;">TechNova Systems</h1>
+            <span class="badge badge-blue">Recruiter Cloud Pro</span>
+          </div>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.2rem;">Enterprise Recruitment Management & Talent Pipeline</p>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <button onclick="navigateTo('candidate-dashboard')" class="btn-secondary" style="font-size: 0.85rem;">
+          <i data-lucide="user" style="width: 16px; height: 16px;"></i> Candidate View
+        </button>
+        <button onclick="openPostJobModal()" class="btn-gradient" style="font-size: 0.85rem;">
+          <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i> Post New Job
+        </button>
+      </div>
+    </div>
+
+    <!-- Employer Navigation Tabs -->
+    <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; margin-bottom: 2rem; overflow-x: auto;">
+      <button onclick="switchEmployerTab('overview')" class="emp-nav-btn nav-link active" data-tab="overview">Analytics & Overview</button>
+      <button onclick="switchEmployerTab('candidates')" class="emp-nav-btn nav-link" data-tab="candidates">
+        Candidate Pipeline <span class="badge badge-cyan" style="font-size: 0.65rem; padding: 1px 6px;">5</span>
+      </button>
+      <button onclick="switchEmployerTab('jobs')" class="emp-nav-btn nav-link" data-tab="jobs">Manage Jobs (3)</button>
+      <button onclick="switchEmployerTab('post')" class="emp-nav-btn nav-link" data-tab="post">Post a Job (Live Preview)</button>
+    </div>
+
+    <!-- EMP TAB 1: OVERVIEW & ANALYTICS -->
+    <div id="emp-tab-overview" class="emp-tab-content">
+      
+      <!-- Metrics Cards -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+        
+        <div class="glass-panel" style="padding: 1.25rem;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Active Jobs</span>
+          <div style="font-size: 2rem; font-weight: 800; font-family: var(--font-display); margin: 0.25rem 0;">3</div>
+          <span style="font-size: 0.75rem; color: var(--accent-emerald);">All listings active</span>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.25rem;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Total Applications</span>
+          <div id="emp-stat-apps" style="font-size: 2rem; font-weight: 800; font-family: var(--font-display); margin: 0.25rem 0;">84</div>
+          <span style="font-size: 0.75rem; color: var(--primary-blue);">In selected period</span>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.25rem;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Shortlisted</span>
+          <div id="emp-stat-short" style="font-size: 2rem; font-weight: 800; font-family: var(--font-display); margin: 0.25rem 0;">19</div>
+          <span style="font-size: 0.75rem; color: var(--accent-cyan);">High match scores</span>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.25rem;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Interviews Conducted</span>
+          <div id="emp-stat-interviews" style="font-size: 2rem; font-weight: 800; font-family: var(--font-display); margin: 0.25rem 0;">7</div>
+          <span style="font-size: 0.75rem; color: var(--accent-violet);">Technical & Cultural</span>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.25rem;">
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Conversion Rate</span>
+          <div id="emp-stat-conversion" style="font-size: 2rem; font-weight: 800; font-family: var(--font-display); margin: 0.25rem 0;">5.9%</div>
+          <span style="font-size: 0.75rem; color: var(--accent-emerald);">Above 4.2% industry avg</span>
+        </div>
+
+      </div>
+
+      <!-- Recruitment Analytics Interactive Section -->
+      <div class="glass-panel" style="padding: 2rem; border-radius: var(--radius-xl); margin-bottom: 2rem;">
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+          <div>
+            <h3 style="font-size: 1.3rem; font-weight: 800;">Recruitment Analytics & Funnel</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Application velocity and candidate source distribution</p>
+          </div>
+
+          <!-- Timeframe selector -->
+          <div style="display: flex; gap: 0.4rem; background: rgba(7, 17, 31, 0.6); padding: 0.3rem; border-radius: var(--radius-md);">
+            <button onclick="setAnalyticsTimeframe('7D')" class="analytics-time-btn btn-secondary active" data-time="7D" style="padding: 0.35rem 0.85rem; font-size: 0.8rem; border-radius: var(--radius-sm);">7 Days</button>
+            <button onclick="setAnalyticsTimeframe('30D')" class="analytics-time-btn btn-secondary" data-time="30D" style="padding: 0.35rem 0.85rem; font-size: 0.8rem; border-radius: var(--radius-sm);">30 Days</button>
+            <button onclick="setAnalyticsTimeframe('3M')" class="analytics-time-btn btn-secondary" data-time="3M" style="padding: 0.35rem 0.85rem; font-size: 0.8rem; border-radius: var(--radius-sm);">3 Months</button>
+            <button onclick="setAnalyticsTimeframe('1Y')" class="analytics-time-btn btn-secondary" data-time="1Y" style="padding: 0.35rem 0.85rem; font-size: 0.8rem; border-radius: var(--radius-sm);">1 Year</button>
+          </div>
+        </div>
+
+        <!-- SVG Analytics Charts Grid -->
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;" class="dashboard-grid">
+          
+          <!-- Bar / Line Chart: Applications Velocity -->
+          <div>
+            <div style="font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem;">Applications Received Over Time</div>
+            <div id="analytics-chart-container" style="height: 220px; display: flex; align-items: flex-end; gap: 1.5rem; padding-top: 1rem; border-bottom: 1px solid var(--border-subtle);">
+              <!-- Rendered via JS SVG bars -->
+            </div>
+            <div id="analytics-labels-container" style="display: flex; justify-content: space-around; margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Source Breakdown -->
+          <div>
+            <div style="font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem;">Candidate Source Channels</div>
+            <div id="analytics-sources-container" style="display: flex; flex-direction: column; gap: 0.85rem;">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- EMP TAB 2: CANDIDATE PIPELINE -->
+    <div id="emp-tab-candidates" class="emp-tab-content" style="display: none;">
+      
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <h3 style="font-size: 1.3rem; font-weight: 800;">Candidate Pipeline</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted);">Review incoming applicants, assess technical match %, and schedule interviews.</p>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <button onclick="filterEmployerCandidates('all')" class="emp-cand-btn btn-secondary active" data-status="all" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">All (5)</button>
+          <button onclick="filterEmployerCandidates('Shortlisted')" class="emp-cand-btn btn-secondary" data-status="Shortlisted" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Shortlisted (2)</button>
+          <button onclick="filterEmployerCandidates('Interview')" class="emp-cand-btn btn-secondary" data-status="Interview" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">Interviewing (2)</button>
+          <button onclick="filterEmployerCandidates('New')" class="emp-cand-btn btn-secondary" data-status="New" style="padding: 0.4rem 0.9rem; font-size: 0.85rem; border-radius: var(--radius-full);">New (1)</button>
+        </div>
+      </div>
+
+      <div id="emp-candidates-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.5rem;">
+        <!-- Rendered in JS -->
+      </div>
+
+    </div>
+
+    <!-- EMP TAB 3: MANAGE JOBS -->
+    <div id="emp-tab-jobs" class="emp-tab-content" style="display: none;">
+      <div id="emp-jobs-list" style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <!-- Rendered in JS -->
+      </div>
+    </div>
+
+    <!-- EMP TAB 4: POST A JOB (WITH LIVE PREVIEW) -->
+    <div id="emp-tab-post" class="emp-tab-content" style="display: none;">
+      
+      <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem;" class="dashboard-grid">
+        
+        <!-- Post Job Form -->
+        <div class="glass-panel" style="padding: 2rem; border-radius: var(--radius-xl);">
+          <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 0.25rem;">Create New Job Listing</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Fill out the specifications below to distribute across CareerSphere's network.</p>
+
+          <form id="post-job-form" onsubmit="submitNewJob(event)">
+            
+            <div style="margin-bottom: 1.25rem;">
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Job Title *</label>
+              <input type="text" id="post-title" oninput="updateLiveJobPreview()" value="Staff Systems & Cloud Architect" required style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Department</label>
+                <input type="text" id="post-dept" oninput="updateLiveJobPreview()" value="Infrastructure" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Location *</label>
+                <input type="text" id="post-location" oninput="updateLiveJobPreview()" value="San Francisco, CA / Remote" required style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Work Mode</label>
+                <select id="post-mode" onchange="updateLiveJobPreview()" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+                  <option value="Remote">Remote</option>
+                  <option value="Hybrid">Hybrid</option>
+                  <option value="On-site">On-site</option>
+                </select>
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Job Type</label>
+                <select id="post-type" onchange="updateLiveJobPreview()" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+                  <option value="Full-time">Full-time</option>
+                  <option value="Contract">Contract</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Internship">Internship</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Min Salary ($ / yr)</label>
+                <input type="number" id="post-salary-min" oninput="updateLiveJobPreview()" value="180000" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Max Salary ($ / yr)</label>
+                <input type="number" id="post-salary-max" oninput="updateLiveJobPreview()" value="240000" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+              </div>
+            </div>
+
+            <div style="margin-bottom: 1.25rem;">
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Required Skills (Comma separated)</label>
+              <input type="text" id="post-skills" oninput="updateLiveJobPreview()" value="Kubernetes, Go, Distributed Systems, Terraform, AWS" style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Job Description</label>
+              <textarea id="post-desc" oninput="updateLiveJobPreview()" rows="3" style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md);">Architect our next-generation distributed cluster infrastructure, orchestrating high-throughput microservices across multiple worldwide regions.</textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+              <button type="submit" class="btn-gradient" style="padding: 0.8rem 1.8rem;">
+                <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+                <span>Publish Job</span>
+              </button>
+              <button type="button" onclick="saveJobDraft()" class="btn-secondary">
+                <span>Save Draft</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Real-Time Live Preview -->
+        <div>
+          <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem;">
+            <i data-lucide="eye" style="width: 16px; height: 16px;"></i> Live Candidate Preview
+          </div>
+
+          <div id="live-preview-card" class="job-card job-card-featured" style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.75rem;">
+            <!-- Live rendered in JS based on form changes -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       MODALS SYSTEM
+       ========================================================================= -->
+
+  <!-- 1. JOB DETAILS MODAL -->
+  <div id="job-details-modal" class="cs-modal-backdrop" onclick="closeModalOnBackdrop(event, 'job-details-modal')">
+    <div class="cs-modal-dialog" style="max-width: 840px;">
+      
+      <!-- Modal Header -->
+      <div style="padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface);">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div id="modal-job-logo" class="company-logo-box" style="width: 46px; height: 46px; font-size: 1rem;">TN</div>
+          <div>
+            <h3 id="modal-job-title" style="font-size: 1.35rem; font-weight: 800;">Senior Frontend Engineer</h3>
+            <span id="modal-job-company" style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 600;">TechNova Systems</span>
+          </div>
+        </div>
+        <button onclick="closeModal('job-details-modal')" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center;">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div id="modal-job-body" class="cs-modal-body">
+        <!-- Rendered in JS -->
+      </div>
+
+      <!-- Sticky Footer CTA -->
+      <div style="padding: 1.25rem 1.75rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface);">
+        <div>
+          <span id="modal-job-salary-footer" style="font-size: 1.15rem; font-weight: 800; font-family: var(--font-display); color: var(--text-primary);">$140,000 - $185,000</span>
+          <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Full-time · Remote</span>
+        </div>
+        <div style="display: flex; gap: 0.75rem;">
+          <button id="modal-job-save-btn" onclick="toggleModalJobSave()" class="btn-secondary">
+            <i data-lucide="bookmark" style="width: 16px; height: 16px;"></i> Save
+          </button>
+          <button id="modal-job-apply-btn" onclick="startApplicationFromModal()" class="btn-gradient" style="padding: 0.75rem 1.75rem;">
+            <span>Apply Now</span>
+            <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 2. MULTI-STEP APPLICATION MODAL (6 STEPS) -->
+  <div id="application-modal" class="cs-modal-backdrop" onclick="closeModalOnBackdrop(event, 'application-modal')">
+    <div class="cs-modal-dialog" style="max-width: 680px;">
+      
+      <!-- Wizard Header & Progress Bar -->
+      <div style="padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border-subtle); background: var(--bg-surface);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+          <div>
+            <span id="app-wizard-step-label" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.8px;">Step 1 of 6</span>
+            <h3 id="app-wizard-title" style="font-size: 1.25rem; font-weight: 800;">Personal Information</h3>
+          </div>
+          <button onclick="closeModal('application-modal')" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center;">
+            <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+          </button>
+        </div>
+
+        <div class="wizard-progress-bar">
+          <div id="wizard-progress-fill" class="wizard-progress-fill" style="width: 16.6%;"></div>
+        </div>
+      </div>
+
+      <!-- Wizard Body -->
+      <div id="application-wizard-body" class="cs-modal-body">
+        
+        <!-- STEP 1: PERSONAL INFO -->
+        <div id="app-step-1" class="wizard-step-panel">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Full Name *</label>
+              <input type="text" id="app-name" value="Alex Morgan" required style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Email *</label>
+              <input type="email" id="app-email" value="alex.morgan@careersphere.io" required style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Phone</label>
+              <input type="text" id="app-phone" value="+1 (555) 382-9104" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Current Location</label>
+              <input type="text" id="app-location" value="San Francisco, CA" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+            </div>
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">LinkedIn / GitHub URL</label>
+            <input type="url" id="app-linkedin" value="https://linkedin.com/in/alexmorgan-dev" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+          </div>
+        </div>
+
+        <!-- STEP 2: RESUME -->
+        <div id="app-step-2" class="wizard-step-panel" style="display: none;">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem;">Select an existing verified resume from your profile or attach a custom version for this application.</p>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <label style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-radius: var(--radius-md); background: rgba(7, 17, 31, 0.6); border: 2px solid var(--primary-blue); cursor: pointer;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <input type="radio" name="selectedResume" value="Alex_Morgan_Senior_Engineer_2026.pdf" checked style="accent-color: var(--primary-blue);">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem;">Alex_Morgan_Senior_Engineer_2026.pdf</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Uploaded Aug 20, 2026 · 184 KB (Primary)</div>
+                </div>
+              </div>
+              <span class="badge badge-blue">Verified</span>
+            </label>
+
+            <label style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-radius: var(--radius-md); background: rgba(7, 17, 31, 0.6); border: 1px solid var(--border-subtle); cursor: pointer;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <input type="radio" name="selectedResume" value="Alex_Morgan_FullStack_React_Node.pdf" style="accent-color: var(--primary-blue);">
+                <div>
+                  <div style="font-weight: 700; font-size: 0.9rem;">Alex_Morgan_FullStack_React_Node.pdf</div>
+                  <div style="font-size: 0.75rem; color: var(--text-muted);">Uploaded Jul 15, 2026 · 192 KB</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- STEP 3: COVER LETTER -->
+        <div id="app-step-3" class="wizard-step-panel" style="display: none;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Why are you interested in this role and company?</label>
+          <textarea id="app-cover-letter" rows="5" placeholder="Share why your technical background and engineering values align with this role..." style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md);">I have been closely following your engineering updates and product milestones. With 6+ years specializing in high-throughput React architectures and distributed microservices, I am eager to contribute directly to your team's mission and engineering standards.</textarea>
+        </div>
+
+        <!-- STEP 4: SCREENING QUESTIONS -->
+        <div id="app-step-4" class="wizard-step-panel" style="display: none;">
+          <div style="margin-bottom: 1.25rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">How many years of production experience do you have with the required tech stack?</label>
+            <select id="app-q-experience" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+              <option value="6+ Years">6+ Years</option>
+              <option value="4-6 Years">4-6 Years</option>
+              <option value="2-4 Years">2-4 Years</option>
+              <option value="1-2 Years">1-2 Years</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">What is your notice period?</label>
+            <select id="app-q-notice" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+              <option value="Immediately Available">Immediately Available</option>
+              <option value="2 Weeks">2 Weeks</option>
+              <option value="1 Month">1 Month</option>
+              <option value="2 Months+">2 Months+</option>
+            </select>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem;">Expected Annual Compensation ($)</label>
+            <input type="text" id="app-q-salary" value="$165,000" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+          </div>
+        </div>
+
+        <!-- STEP 5: REVIEW SUMMARY -->
+        <div id="app-step-5" class="wizard-step-panel" style="display: none;">
+          <div class="glass-panel" style="padding: 1.25rem; background: rgba(7, 17, 31, 0.6); margin-bottom: 1rem;">
+            <div style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 700; text-transform: uppercase;">Review Application Details</div>
+            <div id="review-position-name" style="font-size: 1.1rem; font-weight: 800; margin-top: 0.2rem;">Senior Frontend Engineer</div>
+            <div id="review-company-name" style="font-size: 0.85rem; color: var(--text-secondary);">TechNova Systems</div>
+          </div>
+
+          <div style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; color: var(--text-secondary);">
+            <div><strong>Candidate:</strong> <span id="review-cand-name">Alex Morgan</span></div>
+            <div><strong>Contact:</strong> <span id="review-cand-email">alex.morgan@careersphere.io</span></div>
+            <div><strong>Selected Resume:</strong> <span id="review-resume-file">Alex_Morgan_Senior_Engineer_2026.pdf</span></div>
+            <div><strong>Notice Period:</strong> <span id="review-notice">2 Weeks</span></div>
+            <div><strong>Expected Compensation:</strong> <span id="review-salary">$165,000</span></div>
+          </div>
+        </div>
+
+        <!-- STEP 6: SUBMITTED SUCCESS STATE -->
+        <div id="app-step-6" class="wizard-step-panel" style="display: none; text-align: center; padding: 2rem 1rem;">
+          <div style="width: 68px; height: 68px; border-radius: 50%; background: rgba(16, 185, 129, 0.2); display: flex; align-items: center; justify-content: center; color: var(--accent-emerald); margin: 0 auto 1.25rem;">
+            <i data-lucide="check-circle" style="width: 38px; height: 38px;"></i>
+          </div>
+          <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;">Application Submitted!</h2>
+          <p style="color: var(--text-secondary); max-width: 460px; margin: 0 auto 1.5rem; font-size: 0.95rem;">Your complete candidacy package has been received by the hiring team. You will be notified as soon as your profile is reviewed.</p>
+          
+          <div class="glass-panel" style="padding: 1rem; max-width: 380px; margin: 0 auto 1.75rem; background: rgba(7, 17, 31, 0.6); text-align: left; font-size: 0.85rem;">
+            <div><span style="color: var(--text-muted);">Application ID:</span> <strong id="success-app-id">CS-APP-88421</strong></div>
+            <div><span style="color: var(--text-muted);">Role:</span> <strong id="success-app-role">Senior Frontend Engineer</strong></div>
+            <div><span style="color: var(--text-muted);">Submitted:</span> <strong>Today</strong></div>
+          </div>
+
+          <button onclick="goToApplicationTracker()" class="btn-gradient" style="padding: 0.85rem 2rem;">
+            <i data-lucide="activity" style="width: 18px; height: 18px;"></i>
+            <span>Track Application in Dashboard</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Wizard Navigation Buttons -->
+      <div id="app-wizard-footer" style="padding: 1.25rem 1.75rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; background: var(--bg-surface);">
+        <button id="wizard-prev-btn" onclick="wizardStepPrev()" class="btn-secondary" style="visibility: hidden;">Back</button>
+        <button id="wizard-next-btn" onclick="wizardStepNext()" class="btn-gradient">Continue</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 3. INTERVIEW SCHEDULER MODAL (FOR EMPLOYERS) -->
+  <div id="scheduler-modal" class="cs-modal-backdrop" onclick="closeModalOnBackdrop(event, 'scheduler-modal')">
+    <div class="cs-modal-dialog" style="max-width: 540px;">
+      <div style="padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+        <h3 style="font-size: 1.25rem; font-weight: 800;">Schedule Candidate Interview</h3>
+        <button onclick="closeModal('scheduler-modal')" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center;">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+
+      <div class="cs-modal-body">
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Candidate</label>
+          <input type="text" id="sched-candidate-name" readonly style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md); opacity: 0.8;">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Interview Stage</label>
+          <select id="sched-type" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+            <option value="Technical Architecture Deep Dive">Technical Architecture Deep Dive</option>
+            <option value="Pair Programming Assessment">Pair Programming Assessment</option>
+            <option value="Leadership & Values Chat">Leadership & Values Chat</option>
+            <option value="Initial Recruiter Screen">Initial Recruiter Screen</option>
+          </select>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Date</label>
+            <input type="date" id="sched-date" value="2026-09-10" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Time (PST)</label>
+            <input type="time" id="sched-time" value="14:00" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+          </div>
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Meeting Video Link</label>
+          <input type="url" id="sched-link" value="https://meet.careersphere.io/room-tech-interview" style="width: 100%; padding: 0.65rem 0.85rem; border-radius: var(--radius-md);">
+        </div>
+      </div>
+
+      <div style="padding: 1.25rem 1.75rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: flex-end; gap: 0.75rem;">
+        <button onclick="closeModal('scheduler-modal')" class="btn-secondary">Cancel</button>
+        <button onclick="confirmScheduleInterview()" class="btn-gradient">Confirm & Send Invitation</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. RESUME PREVIEW MODAL -->
+  <div id="resume-preview-modal" class="cs-modal-backdrop" onclick="closeModalOnBackdrop(event, 'resume-preview-modal')">
+    <div class="cs-modal-dialog" style="max-width: 680px;">
+      <div style="padding: 1.25rem 1.75rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+        <h3 id="resume-preview-title" style="font-size: 1.15rem; font-weight: 700;">Resume Document Preview</h3>
+        <button onclick="closeModal('resume-preview-modal')" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center;">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+      <div id="resume-preview-content" class="cs-modal-body" style="background: #ffffff; color: #1e293b; font-family: sans-serif; font-size: 0.88rem; line-height: 1.6; border-radius: var(--radius-sm); margin: 1rem;">
+        <!-- Simulated clean rendered CV -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CAREER ARTICLE READER MODAL -->
+  <div id="article-modal" class="cs-modal-backdrop" onclick="closeModalOnBackdrop(event, 'article-modal')">
+    <div class="cs-modal-dialog" style="max-width: 780px;">
+      <div style="padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+        <span id="article-modal-category" class="badge badge-cyan">Resume Tips</span>
+        <button onclick="closeModal('article-modal')" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center;">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+      <div class="cs-modal-body">
+        <h2 id="article-modal-title" style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; line-height: 1.25;">Article Title</h2>
+        <div id="article-modal-meta" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">6 min read · By Elena Rostova</div>
+        <img id="article-modal-image" src="" alt="Article Banner" style="width: 100%; height: 240px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+        <div id="article-modal-content" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-secondary); white-space: pre-line;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. AUTH / SIGN IN MODAL -->
+  <div id="auth-modal" class="cs-modal-backdrop" onclick="closeModalOnBackdrop(event, 'auth-modal')">
+    <div class="cs-modal-dialog" style="max-width: 460px;">
+      <div style="padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+        <h3 style="font-size: 1.25rem; font-weight: 800;">Welcome to CareerSphere</h3>
+        <button onclick="closeModal('auth-modal')" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center;">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+      <div class="cs-modal-body">
+        
+        <!-- Role selector toggle -->
+        <div style="display: flex; background: rgba(7, 17, 31, 0.6); padding: 0.3rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+          <button id="auth-role-cand" onclick="setAuthRole('candidate')" class="btn-secondary active" style="flex: 1; padding: 0.5rem; font-size: 0.85rem; border-radius: var(--radius-sm);">Job Seeker</button>
+          <button id="auth-role-emp" onclick="setAuthRole('employer')" class="btn-secondary" style="flex: 1; padding: 0.5rem; font-size: 0.85rem; border-radius: var(--radius-sm);">Employer</button>
+        </div>
+
+        <form onsubmit="handleAuthSubmit(event)">
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Email Address</label>
+            <input type="email" id="auth-email" value="alex.morgan@careersphere.io" required style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+          </div>
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display: block; font-size: 0.8rem; font-weight: 600; margin-bottom: 0.3rem;">Password</label>
+            <input type="password" value="••••••••••••" required style="width: 100%; padding: 0.7rem 1rem; border-radius: var(--radius-md);">
+          </div>
+          <button type="submit" class="btn-gradient" style="width: 100%; justify-content: center; padding: 0.8rem;">Sign In with Demo Access</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. SHARE MODAL -->
+  <div id="share-modal" class="cs-modal-backdrop" onclick="closeModalOnBackdrop(event, 'share-modal')">
+    <div class="cs-modal-dialog" style="max-width: 440px;">
+      <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between;">
+        <h3 style="font-size: 1.15rem; font-weight: 700;">Share Opportunity</h3>
+        <button onclick="closeModal('share-modal')" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center;">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+      <div class="cs-modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Copy link to share this verified opening with your engineering network:</p>
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+          <input type="text" id="share-link-input" readonly value="https://careersphere.io/jobs/job-01" style="flex: 1; padding: 0.6rem 0.85rem; border-radius: var(--radius-md); font-size: 0.85rem;">
+          <button onclick="copyShareLink()" class="btn-gradient" style="padding: 0.6rem 1rem; font-size: 0.85rem;">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       30. PREMIUM FOOTER
+       ========================================================================= -->
+  <footer style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); padding: 4.5rem 1.5rem 2.5rem; position: relative; z-index: 10;">
+    <div style="max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 3rem;" class="dashboard-grid">
+      
+      <!-- Col 1: Brand & Mission -->
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+          <div style="width: 38px; height: 38px; border-radius: var(--radius-md); background: var(--gradient-blue-cyan); display: flex; align-items: center; justify-content: center; color: #fff;">
+            <i data-lucide="compass" style="width: 20px; height: 20px;"></i>
+          </div>
+          <span style="font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; color: var(--text-primary);">Career<span class="gradient-text-brand">Sphere</span></span>
+        </div>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; max-width: 320px; margin-bottom: 1.5rem;">
+          The enterprise recruitment cloud and modern talent network connecting world-class developers, designers, and innovators with high-growth technology companies.
+        </p>
+        <div style="display: flex; gap: 0.75rem;">
+          <a href="#" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center; background: rgba(255,255,255,0.06);"><i data-lucide="linkedin" style="width: 18px; height: 18px;"></i></a>
+          <a href="#" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center; background: rgba(255,255,255,0.06);"><i data-lucide="github" style="width: 18px; height: 18px;"></i></a>
+          <a href="#" class="btn-ghost" style="width: 36px; height: 36px; padding: 0; justify-content: center; background: rgba(255,255,255,0.06);"><i data-lucide="twitter" style="width: 18px; height: 18px;"></i></a>
+        </div>
+      </div>
+
+      <!-- Col 2: Platform -->
+      <div>
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 1.25rem;">Platform</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.88rem; color: var(--text-secondary);">
+          <li><a href="#jobs" onclick="navigateTo('jobs'); return false;">Find Jobs</a></li>
+          <li><a href="#companies" onclick="navigateTo('companies'); return false;">Company Directory</a></li>
+          <li><a href="#resources" onclick="navigateTo('resources'); return false;">Career Resources</a></li>
+          <li><a href="#jobs" onclick="quickFilterSearch('Remote'); return false;">Remote Opportunities</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Employers -->
+      <div>
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 1.25rem;">For Employers</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.88rem; color: var(--text-secondary);">
+          <li><a href="#" onclick="openPostJobModal(); return false;">Post a Job</a></li>
+          <li><a href="#employer-dashboard" onclick="navigateTo('employer-dashboard'); return false;">Recruiter Portal</a></li>
+          <li><a href="#employer-dashboard" onclick="navigateTo('employer-dashboard'); switchEmployerTab('candidates'); return false;">Candidate Pipeline</a></li>
+          <li><a href="#employer-dashboard" onclick="navigateTo('employer-dashboard'); switchEmployerTab('overview'); return false;">Hiring Analytics</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Resources -->
+      <div>
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 1.25rem;">Resources</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.88rem; color: var(--text-secondary);">
+          <li><a href="#resources" onclick="navigateTo('resources'); filterResourceCategory('Resume Tips'); return false;">Resume Optimization</a></li>
+          <li><a href="#resources" onclick="navigateTo('resources'); filterResourceCategory('Interview Preparation'); return false;">System Design Prep</a></li>
+          <li><a href="#resources" onclick="navigateTo('resources'); filterResourceCategory('Salary Guide'); return false;">2026 Salary Guide</a></li>
+          <li><a href="#resources" onclick="navigateTo('resources'); filterResourceCategory('Remote Work'); return false;">Asynchronous Work</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 5: Company & Legal -->
+      <div>
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 1.25rem;">Company</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.88rem; color: var(--text-secondary);">
+          <li><a href="#">About CareerSphere</a></li>
+          <li><a href="#">Security & Privacy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Contact Support</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div style="max-width: 1320px; margin: 3rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+      <div>© 2026 CareerSphere Technologies Inc. All rights reserved.</div>
+      <div style="display: flex; gap: 1.5rem;">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Cookie Preferences</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification Stack Container -->
+  <div id="toast-container"></div>
+
+  <!-- SVG Linear Gradients Definition -->
+  <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+    <linearGradient id="blueCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+  </svg>
+
+  <!-- Load Data and Application Engine -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
